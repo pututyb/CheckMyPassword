@@ -39,6 +39,9 @@ struct ContentView: View {
                 .padding(.horizontal, 20)
                 .padding(.bottom, 30)
                 .autocapitalization(.none)
+                .onChange(of: password) { newPassword in
+                    isPasswordInList = checkPasswordInList(newPassword)
+                }
             
             Button(action: {
                 isPasswordInList = checkPasswordInList(password)
@@ -86,13 +89,6 @@ struct ContentView: View {
         
         let passwordList = try! String(contentsOf: fileURL, encoding: .utf8)
         return passwordList.contains(password)
-    }
-    
-    func LoadPasswordsFromFile() -> [String]{
-        let fileURL = Bundle.main.url(forResource: "passwordlist", withExtension: "txt")!
-        let contents = try! String(contentsOf: fileURL, encoding: .utf8)
-        let passwordList = contents.split(separator: "\n").map(String.init)
-        return passwordList
     }
 }
 
